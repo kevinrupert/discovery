@@ -1,0 +1,815 @@
+@import 'base';
+@import 'vars';
+
+// Mixins
+@mixin breakpoint($point) {
+  @if $point == small-screen-up {
+    @media (min-width: $small-screen) { @content; }
+  }
+  @else if $point == medium-screen-up {
+    @media (min-width: $medium-screen) { @content; }
+  }
+  @else if $point == large-screen-up {
+    @media (min-width: $large-screen) { @content; }
+  }
+}
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: inline-block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+// Breakpoints
+
+$small-screen: em(400);
+$medium-screen: em(700);
+$large-screen: em(940);
+
+// Styles
+
+html {
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+
+}
+
+body {
+  font-family: $avenir;
+  font-weight: 400;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  color: $base-font-color;
+  font-feature-settings: "kern", "liga", "pnum";
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: $gray;
+  text-decoration: none;
+  &.bold {
+    font-weight: 600;
+  }
+}
+
+/// Text Styles
+
+.title-1 {
+  font-size: 24px;
+  font-weight: 100;
+  @include breakpoint(medium-screen-up) {
+    font-size: 32px;
+  }
+}
+
+.title-2 {
+  font-size: 18px;
+  font-weight: 800;
+  @include breakpoint(medium-screen-up) {
+    font-size: 22px;
+  }
+}
+
+.large {
+  font-size: 18px;
+  line-height: 28px;
+  max-width: 650px;
+  @include breakpoint(medium-screen-up) {
+    font-size: 20px;
+    line-height: 32px;
+  }
+}
+
+.regular {
+  font-size: 16px;
+  line-height: 27px;
+  max-width: 650px;
+  &.set-solid {
+    line-height: 16px;
+  }
+  &.bold {
+    font-weight: 600;
+  }
+}
+
+.tiny {
+  font-size: 12px;
+}
+
+.button {
+  padding: 18px;
+  color: $white;
+  background: $black;
+  display: inline-block;
+  min-width: 140px;
+  text-align: center;
+  @include transition(all 0.3s ease-in-out);
+  &:hover {
+    background: $orange;
+  }
+  p {
+    margin-top: 1px;
+  }
+}
+
+.icon-button {
+  border: 1px solid $black;
+  height: 56px;
+  width: 56px;
+  @include display(flex);
+  @include align-items(center);
+  @include justify-content(center);
+  border-radius: 50%;
+  @include transition(all 0.3s ease-in-out);
+  #fill {
+    @include transition(all 0.3s ease-in-out);
+  }
+  &:hover {
+    background: $black;
+    #fill {
+      fill: $white;
+    }
+  }
+  &.light {
+    border: 1px solid $white;
+    &:hover {
+      background: $white;
+      #fill {
+        fill: $black;
+      }
+    }
+  }
+}
+
+p.image {
+  line-height: 0;
+  max-width: 650px;
+  img {
+    width: 100%;
+  }
+}
+
+/// Spacing
+
+.pad {
+  padding: 24px;
+  @include breakpoint(medium-screen-up) {
+    padding: 48px;
+  }
+  @include breakpoint(large-screen-up) {
+    padding: 64px;
+  }
+}
+
+.in-pad {
+  padding: 24px;
+}
+
+.mar-top-8 {
+  margin-top: 8px;
+}
+
+.mar-top-16 {
+  margin-top: 16px;
+}
+
+.mar-top-24 {
+  margin-top: 24px;
+}
+
+.mar-top-48 {
+  margin-top: 48px;
+}
+
+.mar-bot-8 {
+  margin-bottom: 8px;
+}
+
+.mar-bot-16 {
+  margin-bottom: 16px;
+}
+
+.mar-bot-24 {
+  margin-bottom: 24px;
+}
+
+.mar-bot-48 {
+  margin-bottom: 48px;
+}
+
+.no-line-ht {
+  line-height: 0; // For imgs wrapped in p tags
+}
+
+/// Borders
+
+.bord-top {
+  border-top: 1px solid $light-gray;
+}
+
+.bord {
+  border: 1px solid $light-gray;
+}
+
+/// Layout
+
+.split {
+  @include breakpoint(medium-screen-up) {
+    @include display(flex);
+    @include flex-wrap(wrap);
+    >* {
+      width: 50%;
+    }
+  }
+  &.reverse {
+    @include flex-direction(row-reverse);
+    &.media {
+      &:nth-child(2n) {
+        .arrow {
+          left: 0;
+          right: initial;
+          border-right: 0;
+          border-left: 16px solid $light-gray;
+        }
+      }
+    }
+  }
+}
+
+.thirds {
+  @include breakpoint(medium-screen-up) {
+    @include display(flex);
+    @include flex-wrap(wrap);
+    >* {
+      width: 50%;
+    }
+  }
+  @include breakpoint(large-screen-up) {
+    >* {
+      width: 33.333%;
+    }
+  }
+}
+
+.flex-center {
+  @include display(flex);
+  @include align-items(center);
+  @include justify-content(center);
+  &.vertical {
+    @include flex-direction(column);
+  }
+}
+
+.two-to-one {
+  @include breakpoint(large-screen-up) {
+    @include display(flex);
+    :first-child {
+      @include flex(1);
+    }
+    :nth-child(2) {
+      @include flex(3);
+    }
+  }
+}
+
+.sixteen-nine {
+  @include aspect-ratio(16, 9);
+  &.big-header, &.feature-image {
+    @include breakpoint(large-screen-up) {
+      &:before {
+        padding: 0;
+        height: 600px;
+      }
+    }
+  }
+}
+
+.section {
+  @include breakpoint(large-screen-up) {
+    position: relative;
+  }
+}
+
+/// Components
+
+nav {
+  padding: 24px;
+  border-bottom: 1px solid $light-gray;
+  @include breakpoint(large-screen-up) {
+    @include display(flex);
+    @include justify-content(space-between);
+    @include align-items(center);
+    padding: 0px 36px;
+    box-sizing: border-box;
+    height: 100px;
+  }
+  .logo {
+    img {
+      height: 28px;
+    }
+    @include breakpoint(large-screen-up) {
+    }
+  }
+  ul {
+    display: none;
+    @include breakpoint(large-screen-up) {
+      display: initial;
+      @include display(flex);
+      @include align-items(center);
+      height: 100%;
+      li {
+        margin-right: 48px;
+        line-height: 16px;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+.big-card {
+  background: $black;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: $white;
+  box-sizing: border-box;
+  @include transition(all 0.3s ease-in-out);
+  // @include breakpoint(medium-screen-up) {
+  //   border-right: solid 4px $white;
+  //   border-bottom: solid 4px $white;
+  //   &:nth-child(even) {
+  //     border-right: none;
+  //   }
+  //   &:nth-last-child(2), &:last-child {
+  //     border-bottom: none;
+  //   }
+  // }
+  .content {
+    @include display(flex);
+    @include flex-direction(column);
+    @include justify-content(flex-end);
+  }
+  &.journey-groups {
+    background-image: $image-overlay, url('/assets/imgs/journey-groups.png');
+  }
+  &.volunteer {
+    background-image: $image-overlay, url('/assets/imgs/volunteer.png');
+  }
+  &.loop {
+    background-image: $image-overlay, url('/assets/imgs/loop.png');
+  }
+  &.sports {
+    background-image: $image-overlay, url('/assets/imgs/sports.png');
+  }
+  &.breathing-room-series {
+    background-image: $image-overlay, url('/assets/imgs/breathing-room.jpg');
+  }
+}
+
+.card {
+  @include display(flex);
+  @include flex-direction(column);
+  @include justify-content(flex-end);
+  box-sizing: border-box;
+  @include transition(all 0.3s ease-in-out);
+  padding-bottom: 24px;
+  &:last-child {
+    padding-bottom: 0;
+  }
+  @include breakpoint(medium-screen-up) {
+    padding: 16px;
+    &:last-child {
+      padding-bottom: 16px;
+    }
+  }
+  a {
+    @include transition(all 0.3s ease-in-out);
+    &:hover {
+      color: $black;
+      // @include transform(translateY(-5px));
+      @include transform(scale(1.02));
+    }
+  }
+  img {
+    width: 100%;
+  }
+  .thick-border {
+    background: $gray;
+    height: 3px;
+  }
+}
+
+.media-player {
+  background: $black;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: $white;
+  box-sizing: border-box;
+  position: relative;
+
+  .content {
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(center);
+    .player-control {
+      margin-right: 20%;
+      p.regular {
+        text-transform: uppercase;
+        text-align: center;
+        margin-top: 16px;
+      }
+      &:nth-last-child(2), &:last-child {
+        margin-right: 0;
+      }
+    }
+    .arrow {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 16px solid $light-gray;
+      @include breakpoint(medium-screen-up) {
+        bottom: initial;
+        left: initial;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        border-right:16px solid $light-gray;
+      }
+    }
+  }
+
+  &.breathing-room-series {
+    background-image: $player-overlay, url('/assets/imgs/breathing-room.jpg');
+  }
+}
+
+.media-info {
+  background: $light-gray;
+  box-sizing: border-box;
+  position: relative;
+  @include breakpoint(medium-screen-up) {
+    @include display(flex);
+    @include flex-direction(column);
+    @include align-items(center);
+    @include justify-content(center);
+    .title-2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+  }
+  .more-info {
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    opacity: 0.5;
+    p {
+      display: inline-block;
+      vertical-align: middle;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.page-intro {
+  .large {
+    color: $gray;
+  }
+  @include breakpoint(medium-screen-up) {
+    padding: 150px;
+  }
+  &.short {
+    @include breakpoint(medium-screen-up) {
+      padding: 100px;
+    }
+  }
+}
+
+.this-week {
+  // background: $light-gray;
+}
+
+.events {
+  border-top: 1px solid $light-gray;
+  @include breakpoint(large-screen-up) {
+    border-left: 1px solid $light-gray;
+    border-top: none;
+  }
+  .event-image {
+    line-height: 0;
+    img {
+      width: 100%;
+    }
+  }
+  .large {
+    color: $gray;
+  }
+  .container {
+    width: 100%;
+    .event {
+      margin-top: 24px;
+      box-sizing: border-box;
+      border: 1px solid $light-gray;
+      @include breakpoint(medium-screen-up) {
+        margin-top: 84px;
+      }
+      &:first-child {
+        margin-top: 24px;
+        @include breakpoint(medium-screen-up) {
+          margin-top: 48px;
+        }
+      }
+      .regular {
+        max-width: none;
+      }
+    }
+    .event-title {
+      border-bottom: 1px solid $light-gray;
+      padding-bottom: 24px;
+      background: $light-gray;
+      @include breakpoint(medium-screen-up) {
+        @include display(flex);
+        @include justify-content(space-between);
+        @include align-items(center);
+        height: 60px;
+        .large {
+          margin-top: 0;
+          line-height: 1;
+        }
+        :nth-child(2) {
+          text-align: right;
+        }
+      }
+    }
+    .event-text {
+      @include breakpoint(medium-screen-up) {
+        @include display(flex);
+      }
+      .description {
+        padding-bottom: 0;
+        @include breakpoint(medium-screen-up) {
+          padding-bottom: 24px;
+          max-width: 490px;
+          @include flex(2);
+        }
+      }
+      .info {
+        padding-top: 0;
+        @include breakpoint(medium-screen-up) {
+          padding-top: 24px;
+          @include flex(1);
+          border-left: 1px solid $light-gray;
+        }
+        .button {
+          width: 100%;
+          box-sizing: border-box;
+          background: none;
+          border: 1px solid $black;
+          color: $black;
+          text-align: center;
+          &:hover {
+            background: $black;
+            color: $white;
+          }
+        }
+      }
+      .info-item {
+        @include display(flex);
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid $light-gray;
+        @include breakpoint(medium-screen-up) {
+          &:first-child {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 0;
+          }
+        }
+        .icon {
+          padding-top: 4px;
+          margin-right: 8px;
+          max-width: 20px;
+        }
+      }
+    }
+  }
+}
+
+.big-header {
+  background: $black;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: $white;
+  box-sizing: border-box;
+  max-height: 600px;
+  position: relative;
+  @include transition(all 0.3s ease-in-out);
+  .content {
+    @include display(flex);
+    @include flex-direction(column);
+    @include justify-content(flex-end);
+    padding-bottom: 16px;
+    @include breakpoint(medium-screen-up) {
+      padding-bottom: 24px;
+    }
+    .title-2 {
+      @include breakpoint(large-screen-up) {
+        margin: 16px;
+      }
+    }
+    .button {
+      position: absolute;
+      min-width: 0;
+      right: 0;
+      bottom: 0;
+      padding: 16px;
+      @include display(flex);
+      @include align-items(center);
+      box-sizing: border-box;
+      @include breakpoint(medium-screen-up) {
+        right: 24px;
+        bottom: 24px;
+        background: none;
+        border: 1px solid $white;
+        #arrow {
+          @include transition(all 0.3s ease-in-out);
+        }
+        &:hover {
+          background: $white;
+          color: $gray;
+          #arrow {
+            fill: $gray;
+          }
+        }
+      }
+      .label {
+        display: none;
+        @include breakpoint(medium-screen-up) {
+          display: initial;
+        }
+      }
+      img {
+        vertical-align: middle;
+        @include breakpoint(medium-screen-up) {
+          margin-left: 8px;
+        }
+      }
+    }
+  }
+  &.breathing-room-series {
+    background-image: $image-overlay, url('/assets/imgs/breathing-room.jpg');
+  }
+}
+
+.small-header {
+  background: $black;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-sizing: border-box;
+  height: 140px;
+  @include breakpoint(medium-screen-up) {
+    height: 320px;
+  }
+
+  &.breathing-room-series {
+    background-image: url('/assets/imgs/breathing-room.jpg');
+  }
+  &.journey-groups {
+    background-image: url('/assets/imgs/journey-groups-2.jpg');
+  }
+}
+
+.feature-image {
+  background: $black;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-sizing: border-box;
+  max-height: 600px;
+  position: relative;
+  color: $white;
+
+  &.on-stage {
+    background-image: url('/assets/imgs/on-stage.jpg');
+    @include breakpoint(large-screen-up) {
+      background-image: $image-overlay-dark, url('/assets/imgs/on-stage.jpg');
+    }
+  }
+}
+
+.feature-text {
+  background: $light-gray;
+  @include breakpoint(large-screen-up) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: none;
+    color: $white;
+    @include display(flex);
+    @include flex-direction(column);
+    @include justify-content(space-between);
+    @include align-items(flex-start);
+  }
+  .button {
+    @include breakpoint(large-screen-up) {
+      background: none;
+      border: 1px solid $white;
+      &:hover {
+        background: $white;
+        color: $gray;
+      }
+    }
+  }
+}
+
+footer {
+  border-top: 1px solid $light-gray;
+  @include breakpoint(medium-screen-up) {
+    @include display(flex);
+  }
+  .location {
+    @include breakpoint(large-screen-up) {
+      @include display(flex);
+      @include flex(2);
+    }
+    .info {
+      @include breakpoint(large-screen-up) {
+        margin-left: 48px;
+        @include display(flex);
+        @include flex-direction(column);
+        @include justify-content(space-between);
+      }
+    }
+    .map {
+      img {
+        width: 100%;
+      }
+    }
+    .social {
+      .icon-button {
+        margin-right: 24px;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+      @include display(flex);
+    }
+  }
+  .nav {
+    border-top: 1px solid $light-gray;
+    padding-top: 48px;
+    @include breakpoint(medium-screen-up) {
+      padding-top: 0;
+      margin-top: 0;
+      padding: 24px;
+      border-top: none;
+      border-left: 1px solid $light-gray;
+      margin-left: 48px;
+    }
+    @include breakpoint(large-screen-up) {
+      padding: 48px;
+    }
+    .community-links {
+      @include display(flex);
+      div {
+        @include display(flex);
+        @include flex-direction(column);
+        &:first-child {
+          margin-right: 48px;
+        }
+      }
+    }
+    .links {
+      @include display(flex);
+      @include flex-direction(column);
+    }
+  }
+}

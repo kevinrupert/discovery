@@ -1,0 +1,24 @@
+// Colors
+$white: #ffffff;
+$black: #404042;
+$gray: #707072;
+$light-gray: #EEEEEE;
+$orange: #F6931D;
+
+// Overlays
+$image-overlay-dark: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+$image-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.6) 100%);
+$image-overlay-light: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));
+$player-overlay: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+
+// Typography
+$avenir: "avenir", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+
+// Font Sizes
+$base-font-size: 16px;
+
+// Line height
+$base-line-height: 1;
+
+// Font Colors
+$base-font-color: $black;
